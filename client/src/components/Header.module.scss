@@ -1,0 +1,27 @@
+.active {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -5px;
+
+    background: #000000;
+    border-radius: 18px;
+  }
+}
+
+.login {
+  svg {
+    transition: transform 0.4s ease;
+  }
+  &:hover {
+    svg {
+      transform: translateX(3px);
+    }
+  }
+}
