@@ -16,14 +16,16 @@ const Shop = ({ products, categories, collections }) => {
     setCategories(categories);
   }, []);
 
-  const [filteredProducts, setFilteredProducts] = useState(products.rows);
+  // const [filteredProducts, setFilteredProducts] = useState(products.rows);
 
   const filterProducts = (value) => {
     const newArr = products.rows.filter((item) =>
       item.name.toLowerCase().includes(value.toLowerCase())
     );
-    setFilteredProducts(newArr);
+    // setFilteredProducts(newArr);
   };
+
+  console.log(products);
 
   return (
     <>
@@ -32,7 +34,7 @@ const Shop = ({ products, categories, collections }) => {
       </Head>
       <main className='pt-20 text-black mx-auto max-w-2xl w-full px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8'>
         <div className='flex gap-10 w-full'>
-          <Filter
+          {/* <Filter
             products={products}
             categories={categories}
             collections={collections}
@@ -46,7 +48,7 @@ const Shop = ({ products, categories, collections }) => {
                   <ProductItem key={product.id} product={product} />
                 ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </main>
     </>
