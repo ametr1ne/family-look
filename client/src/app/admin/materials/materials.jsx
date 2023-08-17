@@ -1,11 +1,11 @@
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
 import CategoriesList from "@/components/admin/categories/CategoriesList";
-import CreateCategory from "@/components/admin/Modals/CreateCategory";
-import UpdateCategory from "@/components/admin/Modals/UpdateCategory";
+import CreateCategory from "@/components/admin/modals/CreateCategory";
+import UpdateCategory from "@/components/admin/modals/UpdateCategory";
 import { CategoryService } from "@/services/Category.service";
 import { MaterialService } from "@/services/Material.service";
-import CreateMaterial from "@/components/admin/Modals/CreateMaterial";
+import CreateMaterial from "@/components/admin/modals/CreateMaterial";
 import Image from "next/image";
 import TextButton from "@/components/UI/button/TextButton";
 import Button from "@/components/UI/button/Button";

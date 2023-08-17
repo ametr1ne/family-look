@@ -1,11 +1,11 @@
+"use client";
+
 import { OrderService } from "@/services/Order.service";
-import axios from "axios";
-import Cookies from "js-cookie";
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../_app";
+import { AuthContext } from "../../../contexts/AuthProvider";
 import { UserService } from "@/services/User.service";
 import OrderItem from "@/components/profile/OrderItem";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { HOME_URL } from "@/utils/consts";
 import Head from "next/head";
 
@@ -50,7 +50,7 @@ const Profile = () => {
           <div className='bg-white py-4 px-7 rounded-md'>
             <h2 className='text-2xl font-bold mb-6'>История заказов</h2>
             <ul className='flex flex-col gap-10'>
-              {userOrders ? (
+              {userOrders.length > 0 ? (
                 userOrders.map((order) => <OrderItem key={order.id} order={order} />)
               ) : (
                 <li>У вас еще не было заказов</li>

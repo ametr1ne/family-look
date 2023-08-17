@@ -1,8 +1,10 @@
+"use client";
+
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
 import CategoriesList from "@/components/admin/categories/CategoriesList";
-import CreateCategory from "@/components/admin/Modals/CreateCategory";
-import UpdateCategory from "@/components/admin/Modals/UpdateCategory";
+import CreateCategory from "@/components/admin/modals/CreateCategory";
+import UpdateCategory from "@/components/admin/modals/UpdateCategory";
 import { CategoryService } from "@/services/Category.service";
 
 const Categories = ({ categories }) => {

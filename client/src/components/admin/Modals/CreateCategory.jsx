@@ -1,3 +1,5 @@
+"use client";
+
 import Input from "../../UI/input/Input";
 import { useEffect, useState } from "react";
 import { CategoryService } from "@/services/Category.service";
@@ -6,7 +8,8 @@ import ModalWrapper from "./ModalWrapper";
 const CreateCategory = ({ opened, setOpened }) => {
   const [name, setName] = useState("");
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const formData = new FormData();
 
     formData.append("name", name);

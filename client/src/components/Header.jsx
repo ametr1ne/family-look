@@ -1,24 +1,20 @@
-import { AppContext, AuthContext } from "@/pages/_app";
+"use client";
+
+import { AppContext } from "@/contexts/AppProvider";
+import { AuthContext } from "@/contexts/AuthProvider";
 import { ADMIN_URL, CART_URL, HOME_URL, LOGIN_URL, PROFILE_URL, SHOP_URL } from "@/utils/consts";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState, useEffect, useContext, Fragment } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState, useEffect, useContext } from "react";
 import styles from "./Header.module.scss";
-import { Popover, Transition } from "@headlessui/react";
-import { ChevronDownIcon, PhoneIcon, ArrowLeftOnRectangleIcon } from "@heroicons/react/20/solid";
-import {
-  ArrowSmallRightIcon,
-  PencilIcon,
-  PencilSquareIcon,
-  ShoppingBagIcon,
-  UserIcon,
-} from "@heroicons/react/24/outline";
-import { Cormorant } from "next/font/google";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { ArrowSmallRightIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { authRoutes } from "@/utils/routes";
 import { UserService } from "@/services/User.service";
 
 export const Header = () => {
-  const router = useRouter();
+  const pathname = usePathname();
+  const { push } = useRouter();
   const [active, setActive] = useState(HOME_URL);
   const [openMenu, setOpenMenu] = useState(false);
 
@@ -36,16 +32,20 @@ export const Header = () => {
   }, []);
 
   useEffect(() => {
-    setActive(router.asPath);
-  }, [router.asPath]);
+    setActive(pathname);
+  }, [pathname]);
+
+  if (pathname.includes(ADMIN_URL)) {
+    return null;
+  }
 
   const logOut = () => {
     setIsAuth(false);
     setUser(null);
 
     localStorage.removeItem("token");
-    if (authRoutes.some((route) => route === router.asPath)) {
-      router.push(HOME_URL);
+    if (authRoutes.some((route) => route === pathname)) {
+      push(HOME_URL);
     }
   };
 

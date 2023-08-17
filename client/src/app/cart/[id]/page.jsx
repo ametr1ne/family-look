@@ -1,15 +1,18 @@
+"use client";
+
 import React, { useContext, useEffect, useState } from "react";
 import { CartService } from "@/services/Cart.service";
 import Head from "next/head";
 import Image from "next/image";
 import CartProduct from "@/components/cart/CartProduct";
-import { AppContext, AuthContext } from "../_app";
+import { AppContext } from "@/contexts/AppProvider";
+import { AuthContext } from "@/contexts/AuthProvider";
 import { OrderService } from "@/services/Order.service";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { ProductService } from "@/services/Product.service";
 
 const CartPage = ({ cart }) => {
-  const [products, setProducts] = useState(cart.products);
+  const [products, setProducts] = useState(cart ? cart.products : []);
   const [totalPrice, setTotalPrice] = useState(0);
   const [orderModalOpened, setOrderModalOpened] = useState(false);
 

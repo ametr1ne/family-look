@@ -20,6 +20,8 @@ body {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   color: #1e1e1e;
   background-color: #f2fafd;
 }

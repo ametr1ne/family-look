@@ -56,11 +56,12 @@ const CreateProduct = ({ opened, setOpened, categories, collections }) => {
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}>
             <option value={""}>Не выбрано</option>
-            {categories.map((item) => (
-              <option className='h-6' key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
+            {categories &&
+              categories.map((item) => (
+                <option className='h-6' key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
           </select>
           <p>Коллекция</p>
           <select
@@ -68,11 +69,12 @@ const CreateProduct = ({ opened, setOpened, categories, collections }) => {
             value={collectionId}
             onChange={(e) => setCollectionId(e.target.value)}>
             <option value={""}>Не выбрано</option>
-            {collections.map((item) => (
-              <option className='h-6' key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
+            {collections &&
+              collections.map((item) => (
+                <option className='h-6' key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
           </select>
           <Input
             placeholder={"Цена, руб."}

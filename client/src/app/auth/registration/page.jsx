@@ -1,37 +1,38 @@
-import React, { useContext, useState } from "react";
+"use client";
+
+import { useContext, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { HOME_URL, LOGIN_URL, REGISTRATION_URL } from "@/utils/consts";
+import { HOME_URL, LOGIN_URL } from "@/utils/consts";
 import Input from "@/components/UI/input/Input";
 import { UserService } from "@/services/User.service";
-import { AuthContext } from "../_app";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import { AuthContext } from "../../../contexts/AuthProvider";
 
-const LoginPage = () => {
+const RegistrationPage = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const { setUser, setIsAuth } = useContext(AuthContext);
-  const [error, setError] = useState(null);
 
   const { push } = useRouter();
 
-  const formSubmit = async (e) => {
-    e.preventDefault();
+  const formSubmit = async () => {
     try {
-      const data = await UserService.login(email, password);
-      setUser(data);
+      const response = await UserService.registration(name, email, password);
+      setUser(response);
       setIsAuth(true);
-
       push(HOME_URL);
     } catch (e) {
-      setError(e.response.data.message);
+      console.log(e);
     }
   };
 
   return (
     <>
       <Head>
-        <title>FAMILY LOOK | Войти</title>
+        <title>FAMILY LOOK | Регистрация</title>
         <meta
           name='description'
           content='Семейный онлайн-магазин для приобретения одежды под заказ.'
@@ -41,33 +42,29 @@ const LoginPage = () => {
       <main className='flex flex-col pt-20'>
         <div className='wrapper max-w-xl mx-auto w-full'>
           <div className='title mt-24 mb-5 flex flex-col items-center'>
-            <b className='text-3xl font-bold'>Войдите в свой аккаунт</b>
+            <b className='text-3xl font-bold'>Регистрация</b>
           </div>
           <form className='rounded-xl flex bg-white flex-col mt-12 shadow-xl p-10 w-full mb-24 space-y-5'>
-            {error && <p className='text-red-400 text-sm'>{error}</p>}
-            <Input value={email} setValue={(e) => setEmail(e)} type={"email"} placeholder='Email' />
+            <Input type='text' placeholder='Имя' value={name} setValue={(e) => setName(e)} />
+            <Input type='email' placeholder='Email' value={email} setValue={(e) => setEmail(e)} />
             <Input
+              type='password'
+              placeholder='Пароль'
               value={password}
               setValue={(e) => setPassword(e)}
-              type={"password"}
-              placeholder='Password'
             />
-            <Link
-              href={LOGIN_URL}
-              className='text-indigo-500 font-semibold ml-auto hover:text-indigo-800'>
-              Забыли пароль?
-            </Link>
             <button
-              onClick={(e) => formSubmit(e)}
+              type='button'
+              onClick={formSubmit}
               className='bg-zinc-700 hover:bg-zinc-900 transition-colors duration-300 text-white py-2 px-5 rounded-md font-semibold'>
-              Войти
+              Зарегистрироваться
             </button>
             <p className='text-center'>
               Уже есть аккаунт?{" "}
               <Link
-                href={REGISTRATION_URL}
+                href={LOGIN_URL}
                 className='text-indigo-500 font-semibold hover:text-indigo-800'>
-                Зарегистрироваться
+                Войдите
               </Link>
             </p>
           </form>
@@ -77,4 +74,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegistrationPage;

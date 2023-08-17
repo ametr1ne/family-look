@@ -1,11 +1,12 @@
+"use client";
+
 import Search from "@/components/UI/input/Search";
 import ProductItem from "@/components/shop/ProductItem";
 import { CategoryService } from "@/services/Category.service";
 import { ProductService } from "@/services/Product.service";
 
-import Head from "next/head";
 import React, { useContext, useEffect, useState } from "react";
-import { AppContext } from "../_app";
+import { AppContext } from "@/contexts/AppProvider";
 import Filter from "@/components/shop/filter/Filter";
 import { CollectionService } from "@/services/Collection.service";
 
@@ -29,9 +30,6 @@ const Shop = ({ products, categories, collections }) => {
 
   return (
     <>
-      <Head>
-        <title>Каталог</title>
-      </Head>
       <main className='pt-20 text-black mx-auto max-w-2xl w-full px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8'>
         <div className='flex gap-10 w-full'>
           {/* <Filter

@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const SidebarItem = ({ title, icon, href }) => {
   const [active, setActive] = useState(false);
 
-  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    if (router.pathname === href) setActive(true);
+    if (pathname === href) setActive(true);
   }, []);
 
   return (

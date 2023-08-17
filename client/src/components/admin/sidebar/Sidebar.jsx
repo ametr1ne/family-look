@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useContext, useState } from "react";
 import { ADMIN_URL, HOME_URL } from "@/utils/consts";
 import Link from "next/link";
@@ -12,7 +14,7 @@ import {
   TagIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
-import { AuthContext } from "@/pages/_app";
+import { AuthContext } from "@/contexts/AuthProvider";
 
 const menu = [
   { id: 1, title: "Главная", href: ADMIN_URL, icon: <HomeIcon className='h-6 w-6' /> },

@@ -1,5 +1,5 @@
 import AdminLayout from "@/components/admin/AdminLayout";
-import CreateCollection from "@/components/admin/Modals/CreateCollection";
+import CreateCollection from "@/components/admin/modals/CreateCollection";
 import CollectionsList from "@/components/admin/collections/CollectionsList";
 import { CollectionService } from "@/services/Collection.service";
 import React, { useState } from "react";
