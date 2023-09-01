@@ -4,7 +4,7 @@ const ApiError = require("../error/ApiError");
 class CategoryController {
   async create(req, res, next) {
     const { name } = req.body;
-    if (!name) {
+    if (!name || name.length < 1) {
       next(ApiError.badRequest("Укажите название категории"));
     }
     const candidate = await Category.findOne({ where: { name } });

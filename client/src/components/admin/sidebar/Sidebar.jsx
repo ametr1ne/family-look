@@ -74,10 +74,12 @@ const Sidebar = () => {
         <ArrowLeftIcon className='h-4 w-4 group-hover:-translate-x-1 transition-transform' />В
         магазин
       </Link>
-      <div className='mt-4 p-4 border-t-2 border-zinc-100'>
-        <h3 className='font-bold'>{user.name}</h3>
-        <p className='text-xs'>{user.email}</p>
-      </div>
+      {user && (
+        <div className='mt-4 p-4 border-t-2 border-zinc-100'>
+          <h3 className='font-bold'>{user.name}</h3>
+          <p className='text-xs'>{user.email}</p>
+        </div>
+      )}
     </div>
   );
 };

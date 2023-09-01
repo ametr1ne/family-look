@@ -6,7 +6,7 @@ const CategoriesList = ({ categories, setUpdateId, setCurrentName, setOpened }) 
     <div className='mt-10'>
       <h3 className='text-2xl font-bold mb-4'>Все категории</h3>
       <ul className='flex flex-col gap-4'>
-        {categories &&
+        {categories ? (
           categories.map((item) => (
             <CategoryItem
               setOpened={setOpened}
@@ -15,7 +15,12 @@ const CategoriesList = ({ categories, setUpdateId, setCurrentName, setOpened }) 
               category={item}
               key={item.id}
             />
-          ))}
+          ))
+        ) : (
+          <>
+            <h4>Здесь пока ничего нет :(</h4>
+          </>
+        )}
       </ul>
     </div>
   );

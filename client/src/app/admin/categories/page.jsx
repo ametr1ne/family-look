@@ -1,15 +1,16 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CategoriesList from "@/components/admin/categories/CategoriesList";
 import CreateCategory from "@/components/admin/modals/CreateCategory";
 import UpdateCategory from "@/components/admin/modals/UpdateCategory";
 import { CategoryService } from "@/services/Category.service";
 
-const Categories = ({ categories }) => {
+const Categories = () => {
   const [modalOpened, setModalOpened] = useState(false);
   const [updateModalOpened, setUpdateModalOpened] = useState(false);
+  const [categories, setCategories] = useState(null);
 
   const [currentName, setCurrentName] = useState("");
   const [updateId, setUpdateId] = useState(null);
@@ -17,6 +18,15 @@ const Categories = ({ categories }) => {
   const openModal = () => {
     setModalOpened(true);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await CategoryService.getAll();
+      setCategories(response);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <AdminLayout>
@@ -43,21 +53,3 @@ const Categories = ({ categories }) => {
 };
 
 export default Categories;
-
-export const getStaticProps = async () => {
-  const categories = await CategoryService.getAll();
-
-  if (!categories) {
-    return {
-      props: {
-        notFound: true,
-      },
-    };
-  }
-
-  return {
-    props: {
-      categories,
-    },
-  };
-};

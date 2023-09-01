@@ -19,6 +19,8 @@ const AuthProvider = ({ children }) => {
   const fetchAppData = async () => {
     const userRes = await UserService.checkAuth();
 
+    console.log(userRes);
+
     if (userRes) {
       setUser(userRes);
       setIsAuth(true);

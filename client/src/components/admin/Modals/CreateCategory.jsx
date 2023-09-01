@@ -9,14 +9,16 @@ const CreateCategory = ({ opened, setOpened }) => {
   const [name, setName] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     const formData = new FormData();
 
     formData.append("name", name);
 
-    const createdCategory = await CategoryService.create(formData);
-
-    setOpened(false);
+    try {
+      const createdCategory = await CategoryService.create(formData);
+      setOpened(false);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
