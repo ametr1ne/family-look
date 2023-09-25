@@ -66,8 +66,6 @@ const ProductInfo = sequelize.define("product_info", {
 
 const Order = sequelize.define("order", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  paymentStatus: { type: DataTypes.STRING },
-  workingStatus: { type: DataTypes.STRING },
 });
 
 const OrderProduct = sequelize.define("order_product", {
@@ -79,6 +77,19 @@ const OrderProduct = sequelize.define("order_product", {
 
 const CategoryCollection = sequelize.define("category_collection", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+});
+
+const OrderStatus = sequelize.define("order_status", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, allowNull: false },
+  multipleName: { type: DataTypes.STRING, allowNull: false },
+  showInDesk: { type: DataTypes.BOOLEAN, allowNull: false },
+  color: { type: DataTypes.STRING, allowNull: false },
+});
+
+const PaymentStatus = sequelize.define("payment_status", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, allowNull: false },
 });
 
 User.hasOne(Cart);
@@ -123,6 +134,12 @@ ProductInfo.belongsTo(Product);
 Category.belongsToMany(Collection, { through: CategoryCollection });
 Collection.belongsToMany(Category, { through: CategoryCollection });
 
+OrderStatus.hasMany(Order);
+Order.belongsTo(OrderStatus);
+
+PaymentStatus.hasMany(Order);
+Order.belongsTo(PaymentStatus);
+
 module.exports = {
   User,
   Cart,
@@ -136,4 +153,6 @@ module.exports = {
   OrderProduct,
   ProductInfo,
   Material,
+  OrderStatus,
+  PaymentStatus,
 };

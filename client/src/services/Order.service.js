@@ -41,4 +41,16 @@ export const OrderService = {
       console.log(e);
     }
   },
+  async createStatus(body) {
+    const { data } = await $authHost.post("api/order/status", body);
+    return data;
+  },
+  async createPaymentStatus(body) {
+    const { data } = await $authHost.post("api/order/payment_status", body);
+    return data;
+  },
+  async getStatuses() {
+    const { data } = await $host.get("api/order/statuses");
+    return data;
+  },
 };

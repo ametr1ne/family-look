@@ -21,8 +21,13 @@ class MaterialController {
 
     return res.json(material);
   }
-  async getOne(req, res) {
+  async getOne(req, res, next) {
     const { id } = req.params;
+
+    if (id) {
+      return next(ApiError.badRequest("Не был передан id"));
+    }
+
     const material = await Material.findOne({ where: { id } });
     return res.json(material);
   }

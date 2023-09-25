@@ -2,10 +2,10 @@
 
 import Input from "../../UI/input/Input";
 import { useEffect, useState } from "react";
-import { CategoryService } from "@/services/Category.service";
+import { CategoryService } from "src/services/Category.service";
 import ModalWrapper from "./ModalWrapper";
 
-const CreateCategory = ({ opened, setOpened }) => {
+const CreateCategory = ({ opened, setOpened, updateCategories }) => {
   const [name, setName] = useState("");
 
   const handleSubmit = async (e) => {
@@ -15,6 +15,7 @@ const CreateCategory = ({ opened, setOpened }) => {
 
     try {
       const createdCategory = await CategoryService.create(formData);
+      updateCategories(createdCategory);
       setOpened(false);
     } catch (e) {
       console.log(e);

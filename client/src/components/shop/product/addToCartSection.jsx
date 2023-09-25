@@ -5,27 +5,25 @@ import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import MaterialItem from "./MaterialItem";
 
 const AddToCartSection = ({ product, addedToCart, onAddToCart }) => {
-  const [size, setSize] = useState("");
-  const [height, setHeight] = useState("");
-  const [material, setMaterial] = useState("");
+  const [size, setSize] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [material, setMaterial] = useState(0);
   const [description, setDescription] = useState("");
 
   const [added, setAdded] = useState(addedToCart);
 
   const addToCart = (e) => {
     e.preventDefault();
-    onAddToCart({ size, height, description, material });
+    console.log({ size, height, description, material });
+    onAddToCart({ size, height, description });
   };
 
   const sizes = [36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70];
-  const heights = [150, 152, 154, 156, 158, 160, 162, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70];
-
-  console.log(size);
 
   return (
     <div>
       <div className='content'>
-        <form className='flex flex-col'>
+        <form className='flex flex-col' onSubmit={(e) => addToCart(e)}>
           <div className='flex flex-col gap-2 mb-10'>
             <div>
               <span className='font-medium text-sm mb-2'>Размер</span>
@@ -56,7 +54,7 @@ const AddToCartSection = ({ product, addedToCart, onAddToCart }) => {
                 type={"number"}
                 placeholder={"Рост"}
                 value={height}
-                setValue={(e) => setHeight(e)}
+                setValue={(value) => setHeight(value ? parseInt(value) : "")}
               />
             </label>
 
@@ -100,7 +98,7 @@ const AddToCartSection = ({ product, addedToCart, onAddToCart }) => {
                 Уже в корзине
               </button>
             ) : (
-              <Button customStyle={"w-52"} onClick={(e) => addToCart(e)}>
+              <Button customStyle={"w-52"}>
                 <ShoppingBagIcon className='h-6 w-6' />В корзину
               </Button>
             )}

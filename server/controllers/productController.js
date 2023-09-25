@@ -1,6 +1,6 @@
 const uuid = require("uuid");
 const path = require("path");
-const { Product, ProductInfo } = require("../models/models");
+const { Product, ProductInfo, Category, Collection, Material } = require("../models/models");
 const ApiError = require("../error/ApiError");
 
 class ProductController {
@@ -58,17 +58,76 @@ class ProductController {
 
     let products;
     if (!categoryId && !collectionId) {
-      products = await Product.findAndCountAll({ limit, offset });
+      products = await Product.findAndCountAll({
+        include: [
+          { model: ProductInfo, as: "info" },
+          {
+            model: Category,
+            as: "category",
+          },
+          { model: Collection, as: "collection" },
+        ],
+        attributes: {
+          exclude: ["categoryId", "collectionId"],
+        },
+        order: [["id", "ASC"]],
+        limit,
+        offset,
+      });
     }
     if (categoryId && !collectionId) {
-      products = await Product.findAndCountAll({ where: { categoryId }, limit, offset });
+      products = await Product.findAndCountAll({
+        where: { categoryId },
+        include: [
+          { model: ProductInfo, as: "info" },
+          {
+            model: Category,
+            as: "category",
+          },
+          { model: Collection, as: "collection" },
+        ],
+        attributes: {
+          exclude: ["categoryId", "collectionId"],
+        },
+        order: [["id", "ASC"]],
+        limit,
+        offset,
+      });
     }
     if (!categoryId && collectionId) {
-      products = await Product.findAndCountAll({ where: { collectionId }, limit, offset });
+      products = await Product.findAndCountAll({
+        where: { collectionId },
+        include: [
+          { model: ProductInfo, as: "info" },
+          {
+            model: Category,
+            as: "category",
+          },
+          { model: Collection, as: "collection" },
+        ],
+        attributes: {
+          exclude: ["categoryId", "collectionId"],
+        },
+        order: [["id", "ASC"]],
+        limit,
+        offset,
+      });
     }
     if (categoryId && collectionId) {
       products = await Product.findAndCountAll({
         where: { categoryId, collectionId },
+        include: [
+          { model: ProductInfo, as: "info" },
+          {
+            model: Category,
+            as: "category",
+          },
+          { model: Collection, as: "collection" },
+        ],
+        attributes: {
+          exclude: ["categoryId", "collectionId"],
+        },
+        order: [["id", "ASC"]],
         limit,
         offset,
       });
@@ -79,7 +138,18 @@ class ProductController {
     const { id } = req.params;
     const product = await Product.findOne({
       where: { id },
-      include: [{ model: ProductInfo, as: "info" }],
+      include: [
+        { model: ProductInfo, as: "info" },
+        {
+          model: Category,
+          as: "category",
+        },
+        { model: Collection, as: "collection" },
+      ],
+      attributes: {
+        exclude: ["categoryId", "collectionId"],
+      },
+      order: [["id", "ASC"]],
     });
     return res.json(product);
   }
@@ -87,7 +157,7 @@ class ProductController {
     try {
       let { id, name, price, description, categoryId, collectionId, materials, info } = req.body;
 
-      materials = materials.split(",");
+      materials = materials ? materials.split(",") : [];
 
       const files = req.files;
 

@@ -12,9 +12,12 @@ const CartProduct = ({ product, removeItem }) => {
   useEffect(() => {
     async function fetchData() {
       const res = await ProductService.getOne(product.productId);
-      const materialResponse = await MaterialService.getOne(product.materialId);
+      const materialResponse = product.materialId
+        ? await MaterialService.getOne(product.materialId)
+        : null;
+
       setData(res);
-      setMaterial(materialResponse);
+      materialResponse && setMaterial(materialResponse);
     }
 
     fetchData();
@@ -43,7 +46,7 @@ const CartProduct = ({ product, removeItem }) => {
             <span className='font-medium'>{product.description}</span>
           </p>
         )}
-        {product.materialId && (
+        {material && (
           <div className='text-sm font-semibold'>
             Материал: <br />
             <div className='p-2 border border-zinc-300 rounded-md flex gap-4 w-fit'>

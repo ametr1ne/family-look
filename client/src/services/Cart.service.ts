@@ -1,7 +1,14 @@
 import { $authHost, $host } from "./index";
 
 export const CartService = {
-  async add(cartId, productId, size = null, height = null, description = null, materialId = null) {
+  async add(
+    cartId: number,
+    productId: number,
+    size: number | null = null,
+    height: number | null = null,
+    description: string | null = null,
+    materialId: string | null = null
+  ) {
     const { data } = await $authHost.post("api/cart", {
       cartId,
       productId,
@@ -13,7 +20,7 @@ export const CartService = {
     return data;
   },
 
-  async removeCartItem(id) {
+  async removeCartItem(id: number) {
     const res = await $authHost.delete("api/cart/product?id=" + id);
     return res;
   },
@@ -27,10 +34,13 @@ export const CartService = {
     }
   },
 
-  async getOne(id) {
+  async getOne(id: number) {
     try {
-      const { data } = await $host.get("api/cart/" + id);
-
+      const { data } = await $authHost.get("api/cart/" + id, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       return data;
     } catch (e) {
       console.log(e);

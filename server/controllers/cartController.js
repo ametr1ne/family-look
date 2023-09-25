@@ -41,16 +41,22 @@ class CartController {
       next(ApiError.badRequest(e.message));
     }
   }
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     const carts = await Cart.findAll();
     return res.json(carts);
   }
   async getOne(req, res) {
     const { id } = req.params;
+
+    if (!id) {
+      next(ApiError.badRequest("Не указан id для получения корзины"));
+    }
+
     const cart = await Cart.findOne({
       where: { id },
       include: { model: CartProduct, as: "products" },
     });
+
     return res.json(cart);
   }
 }

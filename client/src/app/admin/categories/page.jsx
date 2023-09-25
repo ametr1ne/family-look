@@ -41,7 +41,11 @@ const Categories = () => {
         setUpdateId={(e) => setUpdateId(e)}
         categories={categories}
       />
-      <CreateCategory opened={modalOpened} setOpened={setModalOpened} />
+      <CreateCategory
+        updateCategories={(created) => setCategories([...categories, created])}
+        opened={modalOpened}
+        setOpened={setModalOpened}
+      />
       <UpdateCategory
         currentName={currentName}
         id={updateId}

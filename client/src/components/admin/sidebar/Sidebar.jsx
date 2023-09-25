@@ -55,7 +55,7 @@ const Sidebar = () => {
   const { user } = useContext(AuthContext);
 
   return (
-    <div className='sidebar fixed left-0 top-0 flex flex-col justify-between w-[300px] h-screen bg-white py-6 px-4'>
+    <div className='sidebar fixed left-0 top-0 flex flex-col justify-between w-[300px] h-screen bg-[#EBEFFF] py-6 px-4'>
       <Link href={HOME_URL}>
         <div className='font-bold text-center text-xl'>
           FAMILY <br /> LOOK

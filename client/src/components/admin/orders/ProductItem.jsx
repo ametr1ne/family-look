@@ -25,7 +25,7 @@ const ProductItem = ({ product }) => {
             src={process.env.NEXT_PUBLIC_API_URL + productData.coverImg}
             width={500}
             height={500}
-            className='object-cover h-20 w-20 object-top'
+            className='object-cover h-12 w-12 object-top rounded-2xl'
             alt='cover'
           />
           <div>

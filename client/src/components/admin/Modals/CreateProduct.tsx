@@ -1,8 +1,8 @@
 import Input from "../../UI/input/Input";
 import { useState } from "react";
-import { ProductService } from "@/services/Product.service";
+import { ProductService } from "src/services/Product.service";
 
-const CreateProduct = ({ opened, setOpened, categories, collections }) => {
+const CreateProduct = ({ opened, setOpened, categories, collections, updateProducts }) => {
   const [name, setName] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [price, setPrice] = useState("");
@@ -25,6 +25,7 @@ const CreateProduct = ({ opened, setOpened, categories, collections }) => {
     formData.append("coverImg", coverImg);
 
     const createdProduct = await ProductService.create(formData);
+    updateProducts(createdProduct);
     console.log(createdProduct);
     setOpened(false);
   };
@@ -49,7 +50,13 @@ const CreateProduct = ({ opened, setOpened, categories, collections }) => {
             value={name}
             setValue={(e) => setName(e)}
           />
-          <Input type={"file"} placeholder={"Выберите обложку"} onChange={(e) => selectFile(e)} />
+          <Input
+            type={"file"}
+            placeholder={"Выберите обложку"}
+            onChange={(e) => selectFile(e)}
+            value={undefined}
+            setValue={undefined}
+          />
           <p>Категория</p>
           <select
             className='py-2 outline-none border border-slate-300 rounded-md'

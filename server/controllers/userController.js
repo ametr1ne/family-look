@@ -52,14 +52,18 @@ class UserController {
   }
 
   async checkAuth(req, res, next) {
-    const token = generateJwt(
-      req.user.id,
-      req.user.email,
-      req.user.name,
-      req.user.role,
-      req.user.cart
-    );
-    return res.json({ token });
+    if (req.user) {
+      const token = generateJwt(
+        req.user.id,
+        req.user.email,
+        req.user.name,
+        req.user.role,
+        req.user.cart
+      );
+      return res.json({ token });
+    } else {
+      return res.json(null);
+    }
   }
 
   async getAll(req, res) {

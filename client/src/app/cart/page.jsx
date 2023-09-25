@@ -11,40 +11,40 @@ import { OrderService } from "@/services/Order.service";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { ProductService } from "@/services/Product.service";
 
-const CartPage = ({ cart }) => {
-  const [products, setProducts] = useState(cart ? cart.products : []);
+const CartPage = () => {
+  const { user } = useContext(AuthContext);
+  const { userCart, setUserCart } = useContext(AppContext);
+
   const [totalPrice, setTotalPrice] = useState(0);
   const [orderModalOpened, setOrderModalOpened] = useState(false);
 
-  const fetchProducts = async () => {
-    const res = await ProductService.getOne(product.productId);
-  };
+  const [products, setProducts] = useState([]);
 
-  const { user } = useContext(AuthContext);
-  const { cartProducts, setCartProducts } = useContext(AppContext);
-
-  console.log(cartProducts);
+  useEffect(() => {
+    userCart && setProducts(userCart.products);
+  }, [userCart]);
 
   const removeItem = async (id) => {
     await CartService.removeCartItem(id);
     const newArray = products.filter((item) => item.id !== id);
     setProducts(newArray);
-    setCartProducts(newArray);
+    setUserCart({ ...userCart, products: newArray });
   };
 
   const createOrder = async () => {
-    const res = await OrderService.create(user.id, cart.products);
-    cart.products.map(async (item) => {
+    const res = await OrderService.create(user.id, products);
+    products.map(async (item) => {
       await CartService.removeCartItem(item.id);
     });
     setOrderModalOpened(true);
     setProducts([]);
-    setCartProducts([]);
+    setUserCart({ ...userCart, products: [] });
   };
 
   const calculateTotalPrice = async () => {
     let count = 0;
-    cart.products.map(async (item) => {
+
+    products.map(async (item) => {
       const data = await ProductService.getOne(item.productId);
       count += await data.price;
       setTotalPrice(count);
@@ -53,13 +53,10 @@ const CartPage = ({ cart }) => {
 
   useEffect(() => {
     calculateTotalPrice();
-  }, []);
+  }, [products]);
 
   return (
     <>
-      <Head>
-        <title>Корзина</title>
-      </Head>
       <main className='mt-20 pt-16 pb-16'>
         <div className=' max-w-[1100px] mx-auto'>
           <h2 className='text-4xl font-bold mb-5'>Корзина</h2>
@@ -114,6 +111,11 @@ const CartPage = ({ cart }) => {
             className='bg-white rounded-xl w-1/2 h-1/3 flex justify-center items-center flex-col gap-5'>
             <CheckCircleIcon className='h-12 w-12 text-green-300' />
             <h3 className='font-bold text-center text-2xl'>Заказ успешно создан</h3>
+            <button
+              onClick={() => setOrderModalOpened(false)}
+              className='bg-gray-700 rounded-xl h-10 px-8 text-white font-semibold hover:bg-gray-800'>
+              Хорошо
+            </button>
           </div>
         </div>
       </main>
@@ -122,38 +124,3 @@ const CartPage = ({ cart }) => {
 };
 
 export default CartPage;
-
-export const getStaticPaths = async () => {
-  const carts = await CartService.getAllCarts();
-
-  let paths = [];
-
-  if (carts) {
-    paths = carts.map((cart) => ({
-      params: { id: cart.id.toString() },
-    }));
-  }
-
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
-export const getStaticProps = async ({ params }) => {
-  const cart = await CartService.getOne(params.id);
-
-  if (!cart) {
-    return {
-      props: {
-        notFound: true,
-      },
-    };
-  }
-
-  return {
-    props: {
-      cart,
-    },
-  };
-};

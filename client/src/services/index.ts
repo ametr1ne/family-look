@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const $host = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -9,7 +10,8 @@ const $authHost = axios.create({
 });
 
 const authInterceptor = async (config) => {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("token");
+
   if (token) {
     config.headers.authorization = `Bearer ${token}`;
   }
