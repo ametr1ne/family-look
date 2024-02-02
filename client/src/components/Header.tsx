@@ -1,34 +1,32 @@
 "use client";
 
-import { AppContext } from "src/contexts/AppProvider";
-import { AuthContext } from "src/contexts/AuthProvider";
-import { ADMIN_URL, CART_URL, HOME_URL, LOGIN_URL, PROFILE_URL, SHOP_URL } from "src/utils/consts";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect, useContext, Fragment } from "react";
-import styles from "./Header.module.scss";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { authRoutes } from "src/utils/routes";
-import { UserService } from "src/services/User.service";
 import { Popover, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import {
-  UserCircleIcon,
   ArrowLeftOnRectangleIcon,
   ChartBarSquareIcon,
   ShoppingBagIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
-import Image from "next/image";
 import Cookies from "js-cookie";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { Fragment, useContext, useEffect, useState } from "react";
+import styles from "./Header.module.scss";
+import { authRoutes } from "utils/routes";
+import { AppContext } from "contexts/AppProvider";
+import { AuthContext } from "contexts/AuthProvider";
+import { HOME_URL, ADMIN_URL, SHOP_URL, CART_URL, PROFILE_URL } from "utils/consts";
 
 export const Header = () => {
   const pathname = usePathname();
   const { push } = useRouter();
   const [active, setActive] = useState(HOME_URL);
-  const [openMenu, setOpenMenu] = useState(false);
 
   const { userCart } = useContext(AppContext);
 
-  const { isAuth, setIsAuth, setUser, user } = useContext(AuthContext);
+  const { setIsAuth, setUser, user } = useContext(AuthContext);
 
   useEffect(() => {
     setActive(pathname);
@@ -71,9 +69,9 @@ export const Header = () => {
             <div className='flex gap-4'>
               <Link href={CART_URL} className='group relative'>
                 <ShoppingBagIcon className='h-6 w-6 group-hover:text-indigo-600 transition-colors duration-300' />
-                {userCart?.products.length > 0 && (
+                {userCart && userCart.products?.length > 0 && (
                   <div className='absolute rounded-full -bottom-2 -right-2 bg-red-300 text-white h-4 w-4 text-xs flex justify-center items-center'>
-                    {userCart?.products?.length}
+                    {userCart.products.length}
                   </div>
                 )}
               </Link>

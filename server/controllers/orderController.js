@@ -33,17 +33,17 @@ class OrderController {
   }
 
   async update(req, res, next) {
-    const { id, orderStatusId, paymentStatusId } = req.body;
+    const { id, orderStatusId } = req.body;
 
     if (!id) {
       next(ApiError.badRequest("Не указан id"));
     }
 
-    if (!orderStatusId && !paymentStatusId) {
+    if (!orderStatusId ) {
       next(ApiError.badRequest("Не были переданы orderStatusId или paymentStatusId"));
     }
 
-    const order = await Order.update({ orderStatusId, paymentStatusId }, { where: { id } });
+    const order = await Order.update({ orderStatusId }, { where: { id } });
 
     return res.json(order);
   }
@@ -57,6 +57,7 @@ class OrderController {
         { model: PaymentStatus, as: "payment_status" },
         { model: OrderStatus, as: "order_status" },
       ],
+      order: [["createdAt", "ASC"]],
     });
     return res.json(orders);
   }
@@ -113,7 +114,10 @@ class OrderController {
   async getStatuses(req, res, next) {
     try {
       const orders = await OrderStatus.findAll({
-        order: [["id", "ASC"]],
+        order: [
+          ["id", "ASC"],
+          [{ model: Order, as: "orders" }, "createdAt", "DESC"],
+        ],
         include: {
           model: Order,
           as: "orders",

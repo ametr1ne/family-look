@@ -1,13 +1,33 @@
 export type TProduct = {
-  categoryId: number | null;
-  collectionId: number | null;
-  coverImg: string | null;
-  createdAt: string;
-  description: string | null;
+  category: TCategory;
+  collection: TCollection;
+  coverImg: string;
+  description: "";
   id: number;
-  materials?: null;
-  name: string | null;
+  info: [];
+  materials: [];
+  name: string;
   price: number;
   rating: number;
   updatedAt: string;
+};
+
+export type TCartProduct = {
+  coverImg: string;
+  description: "";
+  id: number;
+  productId: number;
+  name: string;
+  price: number;
+  rating: number;
+  updatedAt: string;
+};
+
+export type TCategory = {
+  id: number;
+  name: string;
+};
+export type TCollection = {
+  id: number;
+  name: string;
 };

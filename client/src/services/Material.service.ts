@@ -1,10 +1,10 @@
-import { TMaterial } from "src/types/Material";
+import { TMaterial } from "types/Material";
 import { $authHost, $host } from "./index";
 
 export const MaterialService = {
-  async create(material: TMaterial) {
+  async create(material: FormData) {
     try {
-      const { data } = await $authHost.post("api/material", material);
+      const { data } = await $authHost.post("/material", material);
       return data;
     } catch (e) {
       console.log(e);
@@ -13,7 +13,7 @@ export const MaterialService = {
 
   async getOne(id: number) {
     try {
-      const { data } = await $host.get("api/material/" + id);
+      const { data } = await $host.get("/material/" + id);
       return data;
     } catch (e) {
       console.log(e);
@@ -22,7 +22,7 @@ export const MaterialService = {
 
   async getAll() {
     try {
-      const { data } = await $host.get("api/material");
+      const { data } = await $host.get("/material");
       return data;
     } catch (e) {
       console.log(e);
@@ -31,7 +31,7 @@ export const MaterialService = {
 
   async update(material: TMaterial) {
     try {
-      const { data } = await $authHost.patch("api/material", material);
+      const { data } = await $authHost.patch("/material", material);
       return data;
     } catch (e) {
       console.log(e);
@@ -40,7 +40,7 @@ export const MaterialService = {
 
   async remove(id: number) {
     try {
-      const { data } = await $authHost.delete("api/material?id=" + id);
+      const { data } = await $authHost.delete("/material?id=" + id);
       return data;
     } catch (e) {
       console.log(e);

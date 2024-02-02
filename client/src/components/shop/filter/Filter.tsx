@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { TCategory, TCollection, TProduct } from "types/Product";
 
-const Filter = ({ products, categories, collections, setFilteredProducts }) => {
+type Props = {
+  products: TProduct[];
+  categories: TCategory[];
+  collections: TCollection[];
+  setFilteredProducts: Dispatch<SetStateAction<TProduct[]>>;
+};
+
+const Filter = ({ products, categories, collections, setFilteredProducts }: Props) => {
   const [categoryOpened, setCategoryOpened] = useState(false);
   const [collectionOpened, setCollectionOpened] = useState(false);
+
 
   const toggleCategory = () => {
     setCategoryOpened(!categoryOpened);
@@ -13,13 +22,13 @@ const Filter = ({ products, categories, collections, setFilteredProducts }) => {
     setCollectionOpened(!collectionOpened);
   };
 
-  const filterByCategory = async (id) => {
-    const arr = products.filter((item) => item.category.id == id);
+  const filterByCategory = async (id: number) => {
+    const arr = products.filter((item) => item.category && item.category.id == id);
     setFilteredProducts(arr);
   };
 
-  const filterByCollection = async (id) => {
-    const arr = products.filter((item) => item.collection.id == id);
+  const filterByCollection = async (id: number) => {
+    const arr = products.filter((item) => item.collection && item.collection.id == id);
     setFilteredProducts(arr);
   };
 
@@ -27,12 +36,12 @@ const Filter = ({ products, categories, collections, setFilteredProducts }) => {
     <div className='mt-20 w-1/5'>
       {(categories || collections) && (
         <div>
-          <small
-            onClick={() => setFilteredProducts(products.rows)}
+          <button
+            onClick={() => setFilteredProducts(products)}
             className='block mb-2 cursor-pointer'>
             Сбросить
-          </small>
-          {categories && (
+          </button>
+          {categories.length > 0 && (
             <div>
               <div
                 onClick={toggleCategory}
@@ -60,7 +69,7 @@ const Filter = ({ products, categories, collections, setFilteredProducts }) => {
               </div>
             </div>
           )}
-          {collections && (
+          {collections.length > 0 && (
             <div>
               <div
                 onClick={toggleCollection}

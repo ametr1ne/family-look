@@ -1,14 +1,17 @@
-import { OrderService } from "src/services/Order.service";
 import { useEffect, useState } from "react";
 import ProductItem from "./ProductItem";
-import { UserService } from "src/services/User.service";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
+import { OrderService } from "services/Order.service";
+import { UserService } from "services/User.service";
+import { TOrder, TOrderShort } from "types/Order";
+import { IUser } from "types/User";
+import { TProduct } from "types/Product";
+import clsx from "clsx";
 
-const OrderItem = ({ title, order, index, parent }) => {
-  const [orderItems, setOrderItems] = useState(null);
-  const [customer, setCustomer] = useState(null);
-  const [status, setStatus] = useState(order.workingStatus);
+const OrderItem = ({ order }: { order: TOrderShort }) => {
+  const [orderItems, setOrderItems] = useState<TProduct[]>([]);
+  const [customer, setCustomer] = useState<IUser | null>(null);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -20,17 +23,40 @@ const OrderItem = ({ title, order, index, parent }) => {
     fetchItems();
   }, []);
 
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: title,
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+    id: order.id,
     data: {
-      title,
-      index,
-      parent,
+      container: order.order_status.name,
+      orderData: order,
     },
   });
   const style = {
     transform: CSS.Translate.toString(transform),
   };
+
+  if (isDragging) {
+    return (
+      <li className='bg-white border hover:border border-white p-3 rounded-xl flex gap-5 justify-between'>
+        <div className='flex flex-col gap-2 w-full'>
+          <div className='flex gap-4 items-center justify-between'>
+            <h2 className='font-bold text-xl'>#{order.id}</h2>
+            <div className='flex px-2 bg-blue-100 rounded-md font-medium text-sm py-1'>
+              {order.payment_status.name}
+            </div>
+          </div>
+
+          <div className='flex gap-3'>
+            <p className='font-semibold'>email@email.com</p>
+          </div>
+
+          <p className='text-xs'>Товары:</p>
+          <ul>
+            {orderItems && orderItems.map((item) => <ProductItem key={item.id} product={item} />)}
+          </ul>
+        </div>
+      </li>
+    );
+  }
 
   return (
     <li
@@ -38,7 +64,10 @@ const OrderItem = ({ title, order, index, parent }) => {
       {...listeners}
       {...attributes}
       ref={setNodeRef}
-      className='bg-white border border-white hover:border border-gray-500 p-3 rounded-xl flex gap-5 justify-between'>
+      className={clsx(
+        "bg-white border hover:border border-white p-3 rounded-xl flex gap-5 justify-between",
+        { "opacity-40": isDragging }
+      )}>
       <div className='flex flex-col gap-2 w-full'>
         <div className='flex gap-4 items-center justify-between'>
           <h2 className='font-bold text-xl'>#{order.id}</h2>

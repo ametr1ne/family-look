@@ -4,12 +4,12 @@ export const CartService = {
   async add(
     cartId: number,
     productId: number,
-    size: number | null = null,
-    height: number | null = null,
+    size: string | null = null,
+    height: string | null = null,
     description: string | null = null,
     materialId: string | null = null
   ) {
-    const { data } = await $authHost.post("api/cart", {
+    const { data } = await $authHost.post("/cart", {
       cartId,
       productId,
       size,
@@ -21,13 +21,13 @@ export const CartService = {
   },
 
   async removeCartItem(id: number) {
-    const res = await $authHost.delete("api/cart/product?id=" + id);
+    const res = await $authHost.delete("/cart/product?id=" + id);
     return res;
   },
 
   async getAllCarts() {
     try {
-      const { data } = await $host.get("api/cart");
+      const { data } = await $host.get("/cart");
       return data;
     } catch (e) {
       console.log(e);
@@ -36,7 +36,7 @@ export const CartService = {
 
   async getOne(id: number) {
     try {
-      const { data } = await $authHost.get("api/cart/" + id, {
+      const { data } = await $authHost.get("/cart/" + id, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -47,12 +47,12 @@ export const CartService = {
     }
   },
 
-  //   async getCartProducts(id) {
-  //     try {
-  //       const { data } = await $host.get("api/cart/products/" + id);
-  //       return data;
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   },
+  async getCartProducts(id: number) {
+    try {
+      const { data } = await $host.get("/cart/products/" + id);
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
 };

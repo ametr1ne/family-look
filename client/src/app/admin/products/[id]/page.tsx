@@ -1,22 +1,22 @@
 "use client";
 
-import { ProductService } from "src/services/Product.service";
+import { ProductService } from "services/Product.service";
 import Image from "next/image";
 import React, { useState, useEffect, Fragment } from "react";
-import { CategoryService } from "src/services/Category.service";
-import { CollectionService } from "src/services/Collection.service";
+import { CategoryService } from "services/Category.service";
+import { CollectionService } from "services/Collection.service";
 import {
   ArrowLeftIcon,
   CheckCircleIcon,
   CheckIcon,
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
-import AdminLayout from "src/components/admin/AdminLayout";
-import { MaterialService } from "src/services/Material.service";
-import TextButton from "src/components/UI/button/TextButton";
+import AdminLayout from "components/admin/AdminLayout";
+import { MaterialService } from "services/Material.service";
+import TextButton from "components/UI/button/TextButton";
 import { useParams, useRouter } from "next/navigation";
-import { ADMIN_URL } from "src/utils/consts";
-import Input from "src/components/UI/input/Input";
+import { ADMIN_URL } from "utils/consts";
+import Input from "components/UI/input/Input";
 import { Listbox, Transition } from "@headlessui/react";
 import Link from "next/link";
 
@@ -106,26 +106,28 @@ const Product = () => {
   const [materials, setMaterials] = useState(null);
 
   const fetchData = async () => {
-    const response = await ProductService.getOne(id);
+    const response = await ProductService.getOne(+id);
     const cats = await CategoryService.getAll();
     // const collections = await CollectionService.getAll();
     // const materials = await MaterialService.getAll();
 
-    response.collection && console.log("Hello");
+    if (response) {
+      response.collection && console.log("Hello");
 
-    setProduct({
-      ...product,
-      name: response.name,
-      category: response.category && response.category.id,
-      price: response.price,
-      collection: response.collection && response.collection.id,
-      materials: response.materials && response.materials,
-      coverImg: response.coverImg,
-      preview: process.env.NEXT_PUBLIC_API_URL + response.coverImg,
-      description: response.description ? response.description : "",
-    });
+      setProduct({
+        ...product,
+        name: response.name,
+        category: response.category && response.category.id,
+        price: response.price,
+        collection: response.collection && response.collection.id,
+        materials: response.materials && response.materials,
+        coverImg: response.coverImg,
+        preview: process.env.NEXT_PUBLIC_API_URL + response.coverImg,
+        description: response.description ? response.description : "",
+      });
+    }
 
-    setCategories(cats);
+    cats && setCategories(cats);
     // setCollections(collections);
     // setMaterials(materials);
   };

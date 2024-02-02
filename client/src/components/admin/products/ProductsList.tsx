@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import ProductItem from "./ProductItem";
-import { TProduct } from "src/types/Product";
+import { TProduct } from "types/Product";
 
 const ProductsList = ({ products }: { products: TProduct[] }) => {
   return (

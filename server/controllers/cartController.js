@@ -7,6 +7,7 @@ class CartController {
       let { cartId, productId, size, height, description, materialId } = req.body;
 
       description = description || "";
+      materialId = materialId || null;
 
       if (!cartId || !productId || !size || !height) {
         next(ApiError.badRequest("Не удалось получить обязательные параметры"));

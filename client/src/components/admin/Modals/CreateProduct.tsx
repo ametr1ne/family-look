@@ -1,6 +1,6 @@
+import { ProductService } from "services/Product.service";
 import Input from "../../UI/input/Input";
 import { useState } from "react";
-import { ProductService } from "src/services/Product.service";
 
 const CreateProduct = ({ opened, setOpened, categories, collections, updateProducts }) => {
   const [name, setName] = useState("");

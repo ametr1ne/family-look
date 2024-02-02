@@ -1,21 +1,25 @@
 "use client";
 
 import Input from "../../UI/input/Input";
-import { useEffect, useState } from "react";
-import { CategoryService } from "src/services/Category.service";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ModalWrapper from "./ModalWrapper";
+import { CategoryService } from "services/Category.service";
 
-const CreateCategory = ({ opened, setOpened, updateCategories }) => {
+type Props = {
+  opened: boolean;
+  setOpened: Dispatch<SetStateAction<boolean>>;
+};
+
+const CreateCategory = ({ opened, setOpened }: Props) => {
   const [name, setName] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     const formData = new FormData();
 
     formData.append("name", name);
 
     try {
-      const createdCategory = await CategoryService.create(formData);
-      updateCategories(createdCategory);
+      await CategoryService.create(formData);
       setOpened(false);
     } catch (e) {
       console.log(e);
@@ -23,7 +27,7 @@ const CreateCategory = ({ opened, setOpened, updateCategories }) => {
   };
 
   return (
-    <ModalWrapper opened={opened} setOpened={setOpened}>
+    <ModalWrapper opened={opened} close={setOpened}>
       <b className='text-2xl font-semibold'>Создать категорию</b>
 
       <form className='flex flex-col max-w-2xl gap-y-4 mt-6'>

@@ -19,3 +19,9 @@ export type TOrderShort = {
   payment_status: TPaymentStatus;
   userId: number;
 };
+
+export type TOrder = {
+  id: number;
+  orderStatusId: number;
+  paymentStatusId: number;
+};

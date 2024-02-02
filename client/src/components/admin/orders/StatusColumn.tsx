@@ -1,10 +1,11 @@
 import React from "react";
 import OrderItem from "./OrderItem";
 import { useDroppable } from "@dnd-kit/core";
+import { TStatus } from "types/Order";
 
-const StatusColumn = ({ status }) => {
+const StatusColumn = ({ status }: { status: TStatus }) => {
   const { setNodeRef, isOver } = useDroppable({
-    id: status.id,
+    id: status.name,
   });
 
   return (
@@ -23,13 +24,7 @@ const StatusColumn = ({ status }) => {
 
       <ul className={`flex flex-col gap-3 h-full overflow-hidden overflow-y-auto`} ref={setNodeRef}>
         {status.orders.map((order, index) => (
-          <OrderItem
-            title={order.id}
-            key={order.id}
-            index={index}
-            order={order}
-            parent={status.id}
-          />
+          <OrderItem key={order.id} order={order} />
         ))}
       </ul>
     </div>

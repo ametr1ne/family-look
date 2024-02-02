@@ -1,14 +1,13 @@
 "use client";
 
-import { AuthContext } from "src/contexts/AuthProvider";
-import { CategoryService } from "src/services/Category.service";
-import { CollectionService } from "src/services/Collection.service";
-import { ProductService } from "src/services/Product.service";
-import AdminLayout from "src/components/admin/AdminLayout";
-import ProductsList from "src/components/admin/products/ProductsList";
+import AdminLayout from "components/admin/AdminLayout";
+import CreateProduct from "components/admin/modals/CreateProduct";
+import ProductsList from "components/admin/products/ProductsList";
 import { useEffect, useState } from "react";
-import { TProduct } from "src/types/Product";
-import CreateProduct from "src/components/admin/Modals/CreateProduct";
+import { CategoryService } from "services/Category.service";
+import { CollectionService } from "services/Collection.service";
+import { ProductService } from "services/Product.service";
+import { TProduct } from "types/Product";
 
 const Products = () => {
   const [productModalOpened, setProductModalOpened] = useState(false);

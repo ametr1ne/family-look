@@ -75,63 +75,63 @@ class ProductController {
         offset,
       });
     }
-    if (categoryId && !collectionId) {
-      products = await Product.findAndCountAll({
-        where: { categoryId },
-        include: [
-          { model: ProductInfo, as: "info" },
-          {
-            model: Category,
-            as: "category",
-          },
-          { model: Collection, as: "collection" },
-        ],
-        attributes: {
-          exclude: ["categoryId", "collectionId"],
-        },
-        order: [["id", "ASC"]],
-        limit,
-        offset,
-      });
-    }
-    if (!categoryId && collectionId) {
-      products = await Product.findAndCountAll({
-        where: { collectionId },
-        include: [
-          { model: ProductInfo, as: "info" },
-          {
-            model: Category,
-            as: "category",
-          },
-          { model: Collection, as: "collection" },
-        ],
-        attributes: {
-          exclude: ["categoryId", "collectionId"],
-        },
-        order: [["id", "ASC"]],
-        limit,
-        offset,
-      });
-    }
-    if (categoryId && collectionId) {
-      products = await Product.findAndCountAll({
-        where: { categoryId, collectionId },
-        include: [
-          { model: ProductInfo, as: "info" },
-          {
-            model: Category,
-            as: "category",
-          },
-          { model: Collection, as: "collection" },
-        ],
-        attributes: {
-          exclude: ["categoryId", "collectionId"],
-        },
-        order: [["id", "ASC"]],
-        limit,
-        offset,
-      });
-    }
+    // if (categoryId && !collectionId) {
+    //   products = await Product.findAndCountAll({
+    //     where: { categoryId },
+    //     include: [
+    //       { model: ProductInfo, as: "info" },
+    //       {
+    //         model: Category,
+    //         as: "category",
+    //       },
+    //       { model: Collection, as: "collection" },
+    //     ],
+    //     attributes: {
+    //       exclude: ["categoryId", "collectionId"],
+    //     },
+    //     order: [["id", "ASC"]],
+    //     limit,
+    //     offset,
+    //   });
+    // }
+    // if (!categoryId && collectionId) {
+    //   products = await Product.findAndCountAll({
+    //     where: { collectionId },
+    //     include: [
+    //       { model: ProductInfo, as: "info" },
+    //       {
+    //         model: Category,
+    //         as: "category",
+    //       },
+    //       { model: Collection, as: "collection" },
+    //     ],
+    //     attributes: {
+    //       exclude: ["categoryId", "collectionId"],
+    //     },
+    //     order: [["id", "ASC"]],
+    //     limit,
+    //     offset,
+    //   });
+    // }
+    // if (categoryId && collectionId) {
+    //   products = await Product.findAndCountAll({
+    //     where: { categoryId, collectionId },
+    //     include: [
+    //       { model: ProductInfo, as: "info" },
+    //       {
+    //         model: Category,
+    //         as: "category",
+    //       },
+    //       { model: Collection, as: "collection" },
+    //     ],
+    //     attributes: {
+    //       exclude: ["categoryId", "collectionId"],
+    //     },
+    //     order: [["id", "ASC"]],
+    //     limit,
+    //     offset,
+    //   });
+    // }
     return res.json(products);
   }
   async getOne(req, res) {
