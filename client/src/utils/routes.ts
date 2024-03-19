@@ -17,4 +17,4 @@ export const publicRoutes: string[] = [
   REGISTRATION_URL,
 ];
 
-export const authRoutes: string[] = [PROFILE_URL, CART_URL, ADMIN_URL];
+export const authRoutes: string[] = [PROFILE_URL, CART_URL];

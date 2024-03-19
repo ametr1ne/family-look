@@ -36,23 +36,27 @@ export const UserService = {
   },
 
   async login(email: string, password: string) {
-    const { data } = await $host.post("/user/login", { email, password });
-    Cookies.set("token", data.token, { path: "/", secure: true, sameSite: "none" });
-    return jwtDecode(data.token) as IUser;
+    try {
+      const { data } = await $host.post("/user/login", { email, password });
+      Cookies.set("token", data.token, { path: "/", secure: true, sameSite: "none" });
+      return jwtDecode(data.token) as IUser;
+    } catch (e) {
+      console.log(e);
+    }
   },
 
   async checkAuth() {
     try {
-      const { data } = await $host.get("/user/auth/");
+      const { data } = await $authHost.get("/user/auth/");
 
       if (data.status === "authorized") {
-        Cookies.set("token", data.token, { path: "/" });
-        return jwtDecode(data.token);
+        Cookies.set("token", data.token, { path: "/", secure: true, sameSite: "none" });
+        return jwtDecode(data.token) as IUser;
       } else {
         return data;
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   },
 };

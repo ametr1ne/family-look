@@ -44,7 +44,9 @@ const RegistrationPage = () => {
           <div className='title mt-24 mb-5 flex flex-col items-center'>
             <b className='text-3xl font-bold'>Регистрация</b>
           </div>
-          <form className='rounded-xl flex bg-white flex-col mt-12 shadow-xl p-10 w-full mb-24 space-y-5'>
+          <form
+            onSubmit={formSubmit}
+            className='rounded-xl flex bg-white flex-col mt-12 shadow-xl p-10 w-full mb-24 space-y-5'>
             <Input type='text' placeholder='Имя' value={name} setValue={(e) => setName(e)} />
             <Input type='email' placeholder='Email' value={email} setValue={(e) => setEmail(e)} />
             <Input
@@ -54,8 +56,7 @@ const RegistrationPage = () => {
               setValue={(e) => setPassword(e)}
             />
             <button
-              type='button'
-              onClick={formSubmit}
+              type='submit'
               className='bg-zinc-700 hover:bg-zinc-900 transition-colors duration-300 text-white py-2 px-5 rounded-md font-semibold'>
               Зарегистрироваться
             </button>
@@ -64,7 +65,7 @@ const RegistrationPage = () => {
               <Link
                 href={LOGIN_URL}
                 className='text-indigo-500 font-semibold hover:text-indigo-800'>
-                Войдите
+                Войти
               </Link>
             </p>
           </form>

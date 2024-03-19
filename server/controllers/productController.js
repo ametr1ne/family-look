@@ -2,6 +2,7 @@ const uuid = require("uuid");
 const path = require("path");
 const { Product, ProductInfo, Category, Collection, Material } = require("../models/models");
 const ApiError = require("../error/ApiError");
+const { Op } = require("sequelize");
 
 class ProductController {
   async create(req, res, next) {
@@ -50,15 +51,21 @@ class ProductController {
     return res.json(removed);
   }
   async getAll(req, res) {
-    let { categoryId, collectionId, limit, page } = req.body;
+    let { categoryId, collectionId, limit, page, query } = req.query;
     page = page || 1;
     limit = limit || 10;
+    query = query || "";
 
     let offset = page * limit - limit;
 
     let products;
     if (!categoryId && !collectionId) {
       products = await Product.findAndCountAll({
+        where: {
+          name: {
+            [Op.like]: `%${query}%`,
+          },
+        },
         include: [
           { model: ProductInfo, as: "info" },
           {

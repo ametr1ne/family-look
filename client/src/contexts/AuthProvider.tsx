@@ -1,22 +1,20 @@
 "use client";
 
-import {
-  createContext,
-  useState,
-  useEffect,
-  useContext,
-  Dispatch,
-  SetStateAction,
-  ReactNode,
-} from "react";
-import { usePathname, useRouter } from "next/navigation";
-import jwtDecode from "jwt-decode";
 import Cookies from "js-cookie";
-import { AppContext } from "./AppProvider";
-import { IUser } from "types/User";
+import jwtDecode from "jwt-decode";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { CartService } from "services/Cart.service";
-import { HOME_URL } from "utils/consts";
-import { authRoutes } from "utils/routes";
+import { UserService } from "services/User.service";
+import { IUser } from "types/User";
+import { AppContext } from "./AppProvider";
 
 type TAuthContext = {
   isAuth: boolean;
@@ -40,11 +38,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuth, setIsAuth] = useState(defaultState.isAuth);
   const [user, setUser] = useState<IUser | null>(defaultState.user);
 
-  const pathname = usePathname();
-
-  const { push } = useRouter();
-
   const fetchAppData = async () => {
+    await UserService.checkAuth();
+
     const data: IUser | null = Cookies.get("token")
       ? jwtDecode(Cookies.get("token") as string)
       : null;
@@ -56,10 +52,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       const res = await CartService.getOne(data.cart);
 
       res && setUserCart(res);
-    }
-
-    if (!data && authRoutes.some((item) => item === pathname)) {
-      push(HOME_URL);
     }
   };
 

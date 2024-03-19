@@ -8,6 +8,8 @@ import Footer from "components/Footer";
 import { Header } from "components/Header";
 import AppProvider from "contexts/AppProvider";
 import AuthProvider from "contexts/AuthProvider";
+import StoreProvider from "contexts/StoreProvider";
+import Providers from "contexts/Providers";
 
 export const metadata = {
   title: "Family Look",
@@ -20,15 +22,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='en' className={montserrat.className}>
       <body suppressHydrationWarning={true}>
-        <AppProvider>
-          <AuthProvider>
-            <Suspense fallback={<Loading />}>
-              <Header />
-              {children}
-              <Footer />
-            </Suspense>
-          </AuthProvider>
-        </AppProvider>
+        <Providers>
+          <Suspense fallback={<Loading />}>
+            <Header />
+            {children}
+            <Footer />
+          </Suspense>
+        </Providers>
       </body>
     </html>
   );

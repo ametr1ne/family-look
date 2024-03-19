@@ -22,15 +22,10 @@ import { HOME_URL, ADMIN_URL, SHOP_URL, CART_URL, PROFILE_URL } from "utils/cons
 export const Header = () => {
   const pathname = usePathname();
   const { push } = useRouter();
-  const [active, setActive] = useState(HOME_URL);
 
   const { userCart } = useContext(AppContext);
 
   const { setIsAuth, setUser, user } = useContext(AuthContext);
-
-  useEffect(() => {
-    setActive(pathname);
-  }, [pathname]);
 
   if (pathname.includes(ADMIN_URL)) {
     return null;
@@ -41,15 +36,11 @@ export const Header = () => {
     setUser(null);
 
     Cookies.remove("token");
-
-    if (authRoutes.some((route) => route === pathname)) {
-      push(HOME_URL);
-    }
   };
 
   return (
     <header className='w-full md:h-20 bg-white bg-opacity-60 backdrop-blur-md fixed top-0 left-0 z-20'>
-      <div className='max-w-[1440px] h-full mx-auto flex justify-between items-center font-semibold'>
+      <div className='max-w-[1440px] h-full mx-auto flex justify-between items-center font-semibold px-8'>
         <Link href={HOME_URL}>
           <h4 className={"text-lg font-bold text-center leading-5 "}>
             FAMILY
@@ -57,10 +48,10 @@ export const Header = () => {
           </h4>
         </Link>
         <div className='links flex space-x-5'>
-          <Link className={active === HOME_URL ? styles.active : ""} href={HOME_URL}>
+          <Link className={pathname === HOME_URL ? styles.active : ""} href={HOME_URL}>
             Главная
           </Link>
-          <Link className={active === SHOP_URL ? styles.active : ""} href={SHOP_URL}>
+          <Link className={pathname === SHOP_URL ? styles.active : ""} href={SHOP_URL}>
             Каталог
           </Link>
         </div>

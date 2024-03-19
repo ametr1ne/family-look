@@ -38,15 +38,16 @@ const CartPage = () => {
     if (user) {
       try {
         await OrderService.create(user.id, products);
+
+        products.map(async (item) => {
+          await CartService.removeCartItem(item.id);
+        });
+        setOrderModalOpened(true);
+        setProducts([]);
+        userCart && setUserCart({ ...userCart, products: [] });
       } catch (e) {
         console.log(e);
       }
-      products.map(async (item) => {
-        await CartService.removeCartItem(item.id);
-      });
-      setOrderModalOpened(true);
-      setProducts([]);
-      userCart && setUserCart({ ...userCart, products: [] });
     }
   };
 

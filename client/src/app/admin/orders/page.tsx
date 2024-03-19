@@ -1,8 +1,8 @@
 "use client";
 
 import AdminLayout from "components/admin/AdminLayout";
-import CreatePaymentStatusModal from "components/admin/modals/CreatePaymentStatus";
-import CreateStatusModal from "components/admin/modals/CreateStatus";
+import CreatePaymentStatusModal from "components/admin/Modals/CreatePaymentStatus";
+import CreateStatusModal from "components/admin/Modals/CreateStatus";
 import OrdersField from "components/admin/orders/OrdersField";
 import { useState } from "react";
 

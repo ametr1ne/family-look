@@ -60,9 +60,9 @@ class UserController {
         req.user.role,
         req.user.cart
       );
-      return res.json({ token });
+      return res.json({ token, status: "authorized" });
     } else {
-      return res.json(null);
+      return res.json({ token: null, status: "unauthorized" });
     }
   }
 

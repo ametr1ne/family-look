@@ -3,21 +3,30 @@ import { $authHost, $host } from "./index";
 
 type TCreateProduct = Partial<TProduct>;
 
+export type TGetAllOpts = {
+  categoryId?: number;
+  collectionId?: number;
+  limit?: number;
+  page?: number;
+  query?: string;
+};
+
 export const ProductService = {
   async create(product: TCreateProduct) {
     const { data } = await $authHost.post("/product", product);
     return data;
   },
 
-  async getAll(
-    categoryId: number | null = null,
-    collectionId: number | null = null,
-    limit: number = 20,
-    page: number = 1
-  ) {
+  async getAll({ categoryId, collectionId, limit, page, query }: TGetAllOpts) {
     try {
       const { data } = await $host.get<{ rows: TProduct[] }>("/product", {
-        params: { categoryId, collectionId, limit, page },
+        params: {
+          categoryId: categoryId,
+          collectionId: collectionId,
+          limit: limit,
+          page: page,
+          query: query,
+        },
       });
       return data;
     } catch (e) {

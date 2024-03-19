@@ -32,18 +32,17 @@ const LoginPage = () => {
     <main className='flex flex-col pt-20'>
       <div className='wrapper max-w-xl mx-auto w-full'>
         <div className='title mt-24 mb-5 flex flex-col items-center'>
-          <b className='text-3xl font-bold'>Войдите в свой аккаунт</b>
+          <b className='text-3xl font-bold'>Войти</b>
         </div>
         <form
           onSubmit={(e) => formSubmit(e)}
           className='rounded-xl flex bg-white flex-col mt-12 shadow-xl p-10 w-full mb-24 space-y-5'>
-         
           <Input value={email} setValue={(e) => setEmail(e)} type={"email"} placeholder='Email' />
           <Input
             value={password}
             setValue={(e) => setPassword(e)}
             type={"password"}
-            placeholder='Password'
+            placeholder='Пароль'
           />
           <Link
             href={LOGIN_URL}
@@ -54,7 +53,7 @@ const LoginPage = () => {
             Войти
           </button>
           <p className='text-center'>
-            Уже есть аккаунт?{" "}
+            Еще нет аккаунта?{" "}
             <Link
               href={REGISTRATION_URL}
               className='text-indigo-500 font-semibold hover:text-indigo-800'>

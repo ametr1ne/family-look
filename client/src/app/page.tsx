@@ -1,5 +1,5 @@
-import Hero from "components/home/Hero";
 import CategoriesPreview from "components/home/Categories";
+import Hero from "components/home/Hero";
 
 const page = () => {
   return (
